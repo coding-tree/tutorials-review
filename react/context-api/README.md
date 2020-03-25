@@ -42,3 +42,71 @@ _Krótki opis **CA**_
 _Przydatne do wgrania_ - react developer tools
 
 **Podsumowanie:** _Opisano w kilku słowach czym jest **CA** i do czego można to w ogóle wykorzystać._
+
+## Odcinek 3 - Dodajmy Context i Providera
+
+- Na początku warto stworzyć folder o nazwie **_contexts_**, żeby utrzymać porządek. Wiadomo, każdy ma ulubioną strukturę folderów, nic na siłę :D
+- Tworzymy plik o nazwie **_ThemeContext.js_** a w nim umieszczamy kod
+
+```JavaScript
+// importujemy createContext
+import React, { createContext, Component } from "react";
+// tworzymy zmienną i ją eksportujemy, musimy wywołać w niej createContext
+export const ThemeContext = createContext();
+// tworzymy komponent klasowy, który nazywamy tak samo jak wyżej stworzony
+// context z dopiskiem Provider (znowu kwestia sporna, każdy nazywa jak chce! :D)
+class ThemeContextProvider extends Component {
+//  a następnie w nim stan, który chcemy przekazać
+ state = {
+    isLightTheme: true,
+    light: {
+      syntax: "#555",
+      ui: "#ddd",
+      bg: "#eee"
+    },
+    dark: {
+      syntax: "#ddd",
+      ui: "#333",
+      bg: "#555"
+    }
+  };
+  render() {
+    // zwracamy komponent ThemeContext, a dokładniej jego provider który jako value przyjmuje cały state
+    // a w środku chcemy wszystko, co się w nim znajdzie, gdyż będziemy tym komponentem opakowywać inne
+    return (
+      <ThemeContext.Provider value={{ ...this.state }}>
+        {this.props.children}
+      </ThemeContext.Provider>
+    );
+  }
+}
+export default ThemeContextProvider;
+```
+
+**Następnie w pliku App.js umieszczamy kod**
+
+```JavaScript
+import React, { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import "./App.css";
+import BookList from "./components/BookList";
+
+// musimy zaimportować Context
+
+import ThemeContextProvider from "./contexts/ThemeContext";
+
+// a następnie opakować to co chcemy w komponent Contextu
+
+const App = props => {
+  return (
+    <div className="App">
+      <ThemeContextProvider>
+        <Navbar />
+        <BookList />
+      </ThemeContextProvider>
+    </div>
+  );
+};
+
+export default App;
+```
