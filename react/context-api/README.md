@@ -110,3 +110,55 @@ const App = props => {
 
 export default App;
 ```
+
+## Odcinek 3 - Dostęp do Contextu
+
+- W komponencie w którym chcemy uzyskać dostep do Contextu, należy go zaimportować za pomocą
+
+```JavaScript
+// Navbar.js
+import { ThemeContext } from "../contexts/ThemeContext";
+```
+
+oraz stworzyć statyczny typ
+
+```JavaScript
+static contextType = ThemeContext;
+```
+
+żeby się upewnić, że wszystko działa poprawnie, możemy wyświetlić
+
+```JavaScript
+console.log(this.context);
+```
+
+- W naszym komponencie Navbar musimy zaimportować ThemeContext i zdestrukturyzować context aplikacji. Otrzymamy dostęp do state naszego contextu.
+- Możemy wtedy zmienić motyw na nocny/dzienny zależnie od parametrów, które są przekazane w context.
+
+```JavaScript
+import React, { Component } from "react";
+import { ThemeContext } from "../contexts/ThemeContext";
+class Navbar extends Component {
+  static contextType = ThemeContext;
+  render() {
+    console.log(this.context);
+    const { isLightTheme, light, dark } = this.context;
+    const theme = isLightTheme ? light : dark;
+    return (
+      <nav style={{ background: theme.ui, color: theme.syntax }}>
+        <h1>Context API</h1>
+        <ul>
+          <li>Home</li>
+          <li>About</li>
+          <li>Contact</li>
+        </ul>
+      </nav>
+    );
+  }
+}
+
+export default Navbar;
+
+```
+
+**_Podsumowanie_**: _Udało nam się uzyskać dostęp do kontekstu aplikacji w komponencie Navbar oraz ostylować go zależnie od otrzymanych parametrów._
