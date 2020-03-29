@@ -111,7 +111,7 @@ const App = props => {
 export default App;
 ```
 
-## Odcinek 3 - Dostęp do Contextu
+## Odcinek 4 - Dostęp do Contextu
 
 - W komponencie w którym chcemy uzyskać dostep do Contextu, należy go zaimportować za pomocą
 
@@ -162,3 +162,38 @@ export default Navbar;
 ```
 
 **_Podsumowanie_**: _Udało nam się uzyskać dostęp do kontekstu aplikacji w komponencie Navbar oraz ostylować go zależnie od otrzymanych parametrów._
+
+## Odcinek 5 - Dostęp do Contextu cz. 2
+
+- Zamiast tworzyć statyczny context, możemy użyć ContextConsumer, który jako parametr przyjmuje context
+- Którego z nich używać? W zasadzie, jest to zależne od Ciebie
+- Statyczny może byc używany w **_CC_** natomiast Consumer może być użyty zarówno w **_CC_** jak i **_FC_**
+- Consumer może również konsumować kilka różnych Contextów
+
+```JavaScript
+// Navbar.js
+class Navbar extends Component {
+  render() {
+    return (
+      <ThemeContext.Consumer>
+        {context => {
+          const { isLightTheme, light, dark } = context;
+          const theme = isLightTheme ? light : dark;
+          return (
+            <nav style={{ background: theme.ui, color: theme.syntax }}>
+              <h1>Context API</h1>
+              <ul>
+                <li>Home</li>
+                <li>About</li>
+                <li>Contact</li>
+              </ul>
+            </nav>
+          );
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+}
+```
+
+**_Podsumowanie_**: _Zobaczyliśmy, jak można uzyskać dostęp do contextu inaczej. Nauczyliśmy się również, jak przekazać Context do ***FC***_
