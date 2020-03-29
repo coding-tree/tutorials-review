@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import "./App.css";
 import BookList from "./components/BookList";
 import ThemeContextProvider from "./contexts/ThemeContext";
+import ThemeToggle from "./components/ThemeToggle";
 
 const App = props => {
   return (
@@ -10,6 +11,7 @@ const App = props => {
       <ThemeContextProvider>
         <Navbar />
         <BookList />
+        <ThemeToggle />
       </ThemeContextProvider>
     </div>
   );

@@ -197,3 +197,44 @@ class Navbar extends Component {
 ```
 
 **_Podsumowanie_**: _Zobaczyliśmy, jak można uzyskać dostęp do contextu inaczej. Nauczyliśmy się również, jak przekazać Context do ***FC***_
+
+## Odcinek 6 - aktualizowanie Contextu
+
+- Stworzyliśmy komponent ThemeToggle, którego funkcją jest (jak nazwa wskazuje) togglowanie motywu
+
+```JavaScript
+import React, { Component } from "react";
+import { ThemeContext } from "../contexts/ThemeContext";
+
+class ThemeToggle extends Component {
+  static contextType = ThemeContext;
+  render() {
+    const { toggleTheme } = this.context;
+    return <button onClick={toggleTheme}>Toggle theme</button>;
+  }
+}
+
+export default ThemeToggle;
+
+```
+
+- Następnie w _ThemeContext_ stworzyliśmy funkcję
+
+```JavaScript
+toggleTheme = () => {
+    this.setState({ isLightTheme: !this.state.isLightTheme });
+  };
+```
+
+- Którą przekazaliśmy do providera
+
+```JavaScript
+ <ThemeContext.Provider
+        value={{ ...this.state, toggleTheme: this.toggleTheme }}
+      >
+```
+
+- Następnie zaimportowaliśmy **_ToggleTheme_** w **_APP_**
+- I w ten sposób możemy sobie "wyklikiwać" zmianę motywu
+
+**_Podsumowanie_**: Nauczyliśmy się, jak przekazać funkcję zmieniającą context (stan) do komponentu i przekazać buttonowi onClicka
