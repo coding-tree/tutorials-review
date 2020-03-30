@@ -238,3 +238,33 @@ toggleTheme = () => {
 - I w ten sposób możemy sobie "wyklikiwać" zmianę motywu
 
 **_Podsumowanie_**: Nauczyliśmy się, jak przekazać funkcję zmieniającą context (stan) do komponentu i przekazać buttonowi onClicka
+
+## Odcinek 7 - tworzenie kilku Contextów
+
+- Jeśli oprócz zmiany motywu, chcemy mieć context np. do autentykacji, możemy stworzyć nowy context.
+- Zależnie od tego, gdzie chcemy przekazać provider (czy np do 1 konkretnego komponentu, czy do całej aplikacji), możemy owrapować komponenty, którym chcemy przekazać kontext
+
+```JavaScript
+import React, { Component, createContext } from "react";
+// plik AuthContext.js
+export const AuthContext = createContext();
+class AuthContextProvider extends Component {
+  state = { isAuthenticated: false };
+  toggleAuth = () => {
+    this.setState({ isAuthenticated: !this.state.isAuthenticated });
+  };
+  render() {
+    return (
+      <AuthContext.Provider
+        value={{ ...this.state, toggleAuth: this.toggleAuth }}
+      >
+        {this.props.children}
+      </AuthContext.Provider>
+    );
+  }
+}
+export default AuthContextProvider;
+
+```
+
+**_Podsumowanie_**: Stworzono AuthContext.js, przekazano context do wszystkich komponentów.
