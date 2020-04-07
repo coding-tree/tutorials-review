@@ -268,3 +268,7 @@ export default AuthContextProvider;
 ```
 
 **_Podsumowanie_**: Stworzono AuthContext.js, przekazano context do wszystkich komponentów.
+
+## Odcinek 7 - konsumowanie kilku Contextów
+
+<!-- skonczone na 3:53 -->
